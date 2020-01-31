@@ -106,7 +106,7 @@ export class MvDropdown extends LitElement {
       }
 
       .mv-dropdown-header.light {
-        color: var(--mv-dropdown-header-color, #000000);        
+        color: var(--mv-dropdown-header-light-color, #000000);        
       }
 
       .mv-dropdown-footer {
