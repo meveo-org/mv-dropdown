@@ -34,7 +34,10 @@ export class MvDropdown extends LitElement {
         --trigger-height: var(--mv-dropdown-trigger-height, 26px);
         --trigger-padding: var(--mv-dropdown-trigger-padding, 5px);
         --min-width: var(--mv-dropdown-min-width, 188px);
-        --max-width: var(--mv-dropdown-max-width, 300px);        
+        --max-width: var(--mv-dropdown-max-width, 300px);
+        --content-max-height: var(--mv-dropdown-content-max-height, 150px);
+        --content-margin: var(--mv-dropdown-content-margin, 0); 
+        --header-padding: var(--mv-dropdown-header-padding, 5px 15px);
       }
 
       .mv-dropdown-container {
@@ -102,7 +105,7 @@ export class MvDropdown extends LitElement {
       .mv-dropdown-header {
         color: var(--mv-dropdown-header-color, #FFFFFF);
         box-shadow:  0 0 10px 1px rgba(7, 17, 26, 0.35);
-        padding: 5px 15px;
+        padding: var(--header-padding);
       }
 
       .mv-dropdown-header.light {
@@ -116,7 +119,7 @@ export class MvDropdown extends LitElement {
 
       .mv-dropdown-content {
         overflow: auto;
-        max-height: 150px;
+        max-height: var(--content-max-height);
       }
 
       .mv-dropdown-content.scrollbar {
@@ -127,6 +130,7 @@ export class MvDropdown extends LitElement {
         // fallback for firefox
         scrollbar-color: #5A6473 #788394;
         scrollbar-width: thin;
+        margin: var(--content-margin);
       }
 
       .mv-dropdown-content.scrollbar:focus {
