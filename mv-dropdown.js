@@ -136,7 +136,7 @@ export class MvDropdown extends LitElement {
       }
 
       .mv-dropdown-content.scrollbar {
-        width: calc(100% - 8px);
+        width: calc(100% - 2px);
         float: left;
         overflow-y: auto;
         margin: 0;
