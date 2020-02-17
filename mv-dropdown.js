@@ -10,6 +10,11 @@ export class MvDropdown extends LitElement {
       footer: { type: Boolean, attribute: true },
       content: { type: Boolean, attribute: true },
       hover: { type: Boolean, attribute: true },
+      closeOnClick: {
+        type: Boolean,
+        attribute: "close-on-click",
+        reflect: true
+      },
       hidden: { type: Boolean, attribute: false },
 
       // valid justify values are: left, center, right
@@ -28,26 +33,34 @@ export class MvDropdown extends LitElement {
 
   static get styles() {
     return css`
-			:host {
-				font-family: var(--font-family, Arial);
-				font-size: var(--font-size-m, 10pt);
+      :host {
+        font-family: var(--font-family, Arial);
+        font-size: var(--font-size-m, 10pt);
         --trigger-height: var(--mv-dropdown-trigger-height, 26px);
         --trigger-padding: var(--mv-dropdown-trigger-padding, 5px);
         --min-width: var(--mv-dropdown-min-width, 188px);
         --max-width: var(--mv-dropdown-max-width, 300px);
         --content-max-height: var(--mv-dropdown-content-max-height, 150px);
-        --content-margin: var(--mv-dropdown-content-margin, 0); 
+        --content-margin: var(--mv-dropdown-content-margin, 0);
         --header-padding: var(--mv-dropdown-header-padding, 5px 15px);
       }
 
       @-webkit-keyframes fadeIn {
-        from {opacity: 0;}
-        to {opacity: 1;}
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
 
       @keyframes fadeIn {
-        from {opacity: 0;}
-        to {opacity:1 ;}
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
 
       .mv-dropdown-container {
@@ -63,8 +76,8 @@ export class MvDropdown extends LitElement {
       .mv-dropdown {
         min-width: var(--min-width);
         max-width: var(--max-width);
-        border: var(--mv-dropdown-border, 1px solid #1E3843);
-        background: var(--mv-dropdown-background, #3F4753);
+        border: var(--mv-dropdown-border, 1px solid #1e3843);
+        background: var(--mv-dropdown-background, #3f4753);
         color: var(--mv-dropdown-color, #999999);
         position: absolute;
         border-radius: 5px;
@@ -76,22 +89,22 @@ export class MvDropdown extends LitElement {
       }
 
       .mv-dropdown.light {
-        border: var(--mv-dropdown-light-border, 1px solid #4E686D);
-        background: var(--mv-dropdown-light-background, #FFFFFF);
+        border: var(--mv-dropdown-light-border, 1px solid #4e686d);
+        background: var(--mv-dropdown-light-background, #ffffff);
         color: var(--mv-dropdown-light-color, #818181);
       }
 
-      .mv-dropdown.top{
+      .mv-dropdown.top {
         bottom: var(--trigger-height);
       }
 
-      .mv-dropdown.bottom{
+      .mv-dropdown.bottom {
         top: var(--trigger-height);
       }
 
       .mv-dropdown-slot-container {
         position: relative;
-        display: flex;        
+        display: flex;
         flex-direction: column;
       }
 
@@ -104,7 +117,7 @@ export class MvDropdown extends LitElement {
       }
 
       .mv-dropdown-slot-container.left {
-        align-items: flex-start;        
+        align-items: flex-start;
       }
 
       .mv-dropdown-slot-container.center {
@@ -114,19 +127,19 @@ export class MvDropdown extends LitElement {
       .mv-dropdown-slot-container.right {
         align-items: flex-end;
       }
-      
+
       .mv-dropdown-header {
-        color: var(--mv-dropdown-header-color, #FFFFFF);
-        box-shadow:  0 0 10px 1px rgba(7, 17, 26, 0.35);
+        color: var(--mv-dropdown-header-color, #ffffff);
+        box-shadow: 0 0 10px 1px rgba(7, 17, 26, 0.35);
         padding: var(--header-padding);
       }
 
       .mv-dropdown-header.light {
-        color: var(--mv-dropdown-header-light-color, #000000);        
+        color: var(--mv-dropdown-header-light-color, #000000);
       }
 
       .mv-dropdown-footer {
-        box-shadow:  0 0 10px 1px rgba(7, 17, 26, 0.35);
+        box-shadow: 0 0 10px 1px rgba(7, 17, 26, 0.35);
         padding: 5px 15px;
       }
 
@@ -141,7 +154,7 @@ export class MvDropdown extends LitElement {
         overflow-y: auto;
         margin: 0;
         // fallback for firefox
-        scrollbar-color: #5A6473 #788394;
+        scrollbar-color: #5a6473 #788394;
         scrollbar-width: thin;
         margin: var(--content-margin);
       }
@@ -149,43 +162,43 @@ export class MvDropdown extends LitElement {
       .mv-dropdown-content.scrollbar:focus {
         outline: transparent auto 0;
       }
-    
+
       .mv-dropdown-content.scrollbar::-webkit-scrollbar-track {
         box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
         border-radius: 10px;
         background-color: #788394;
       }
-    
+
       .mv-dropdown-content.scrollbar::-webkit-scrollbar {
         width: 8px;
         height: 8px;
         background-color: #788394;
         border-radius: 10px;
       }
-    
+
       .mv-dropdown-content.scrollbar::-webkit-scrollbar-thumb {
         border-radius: 10px;
         box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-        background-color: #5A6473;
+        background-color: #5a6473;
       }
-    
+
       .mv-dropdown-content.scrollbar.light {
         // fallback for firefox
-        scrollbar-color: #1D9BC9 #EAEBF0 !important;
+        scrollbar-color: #1d9bc9 #eaebf0 !important;
       }
 
       .mv-dropdown-content.scrollbar.light::-webkit-scrollbar-track {
         box-shadow: inset 0 0 5px 0 rgba(29, 155, 201, 0.3);
-        background-color: #EAEBF0 !important;
+        background-color: #eaebf0 !important;
       }
-  
+
       .mv-dropdown-content.scrollbar.light::-webkit-scrollbar {
-        background-color: #1D9BC9;
+        background-color: #1d9bc9;
       }
-  
+
       .mv-dropdown-content.scrollbar.light::-webkit-scrollbar-thumb {
         box-shadow: inset 0 0 5px 0 rgba(29, 155, 201, 0.3);
-        background-color: #008FC3;
+        background-color: #008fc3;
       }
 
       .hidden {
@@ -193,7 +206,7 @@ export class MvDropdown extends LitElement {
         visibility: hidden;
         opacity: 0;
       }
-		`;
+    `;
   }
 
   constructor() {
@@ -204,6 +217,7 @@ export class MvDropdown extends LitElement {
     this.content = false;
     this.container = false;
     this.hover = false;
+    this.closeOnClick = true;
     this.hidden = true;
     this.justify = "left";
     this.position = "bottom";
@@ -231,8 +245,8 @@ export class MvDropdown extends LitElement {
               <div class="mv-dropdown-trigger">
                 <slot name="trigger"></slot>
               </div>
-              <div class="${dropdownClass}">              
-                  <slot></slot>
+              <div class="${dropdownClass}" @click="${this.handleContentClick}">
+                <slot></slot>
               </div>
             </div>
           </div>
@@ -260,7 +274,9 @@ export class MvDropdown extends LitElement {
         </div>
       `;
     }
-    return html`<slot></slot>`;
+    return html`
+      <slot></slot>
+    `;
   }
 
   connectedCallback() {
@@ -288,6 +304,12 @@ export class MvDropdown extends LitElement {
 
   triggerMouseOut = () => {
     if (this.hover) {
+      this.hidden = true;
+    }
+  };
+
+  handleContentClick = event => {
+    if (this.closeOnClick && !this.hidden) {
       this.hidden = true;
     }
   };
