@@ -40,6 +40,16 @@ export class MvDropdown extends LitElement {
         --header-padding: var(--mv-dropdown-header-padding, 5px 15px);
       }
 
+      @-webkit-keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity: 1;}
+      }
+
+      @keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity:1 ;}
+      }
+
       .mv-dropdown-container {
         display: inline-block;
         position: relative;
@@ -60,6 +70,9 @@ export class MvDropdown extends LitElement {
         border-radius: 5px;
         box-shadow: 0 0 20px 1px rgba(93, 94, 97, 0.35);
         z-index: 10;
+        visibility: visible;
+        -webkit-animation: fadeIn 0.3s;
+        animation: fadeIn 0.3s;
       }
 
       .mv-dropdown.light {
@@ -177,6 +190,7 @@ export class MvDropdown extends LitElement {
 
       .hidden {
         display: none;
+        visibility: hidden;
         opacity: 0;
       }
 		`;
@@ -206,23 +220,23 @@ export class MvDropdown extends LitElement {
 
     if (this.container) {
       return html`
-        <div
-          class="mv-dropdown-container"
-          @mouseup="${this.triggerClicked}"
-          @mouseenter="${this.triggerMouseOver}"
-          @mouseleave="${this.triggerMouseOut}"
-        >
-          <div class="${slotClass}">
-            <div class="mv-dropdown-trigger">
-              <slot name="trigger"></slot>
-            </div>
-            <div class="${dropdownClass}">
-              <mv-click-away @clicked-away="${this.hideDropdown}">
-                <slot></slot>
-              </mv-click-away>
+        <mv-click-away @clicked-away="${this.hideDropdown}">
+          <div
+            class="mv-dropdown-container"
+            @mouseup="${this.triggerClicked}"
+            @mouseenter="${this.triggerMouseOver}"
+            @mouseleave="${this.triggerMouseOut}"
+          >
+            <div class="${slotClass}">
+              <div class="mv-dropdown-trigger">
+                <slot name="trigger"></slot>
+              </div>
+              <div class="${dropdownClass}">              
+                  <slot></slot>
+              </div>
             </div>
           </div>
-        </div>
+        </mv-click-away>
       `;
     }
     if (this.header) {
