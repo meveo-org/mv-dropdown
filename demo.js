@@ -1,7 +1,6 @@
 import { LitElement, html, css } from "lit-element";
 import "mv-container";
 import "mv-button";
-import "mv-font-awesome";
 import "./mv-dropdown.js";
 
 export class MvDropdownDemo extends LitElement {
@@ -29,7 +28,7 @@ export class MvDropdownDemo extends LitElement {
       .main {
         display: flex;
         flex-direction: column;
-        padding: 50px;        
+        padding: 50px;
       }
 
       .main > * + * {
@@ -52,7 +51,6 @@ export class MvDropdownDemo extends LitElement {
 
       .middle {
         top: calc(50% - 27px);
-
       }
 
       .bottom {
@@ -68,7 +66,7 @@ export class MvDropdownDemo extends LitElement {
       }
 
       .right {
-        right: 0;        
+        right: 0;
       }
 
       .item.center > mv-dropdown {
@@ -120,14 +118,16 @@ export class MvDropdownDemo extends LitElement {
                     <li>Item 10</li>
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown footer>Footer</mv-dropdown>                
+                <mv-dropdown footer>Footer</mv-dropdown>
               </mv-dropdown>
               text
             </div>
             <div class="item top center">
               <mv-dropdown container justify="center" position="bottom">
                 <mv-dropdown trigger><mv-button>Click</mv-button></mv-dropdown>
-                <mv-dropdown header>Header</mv-dropdown>
+                <mv-dropdown header>
+                  Header <span @click="${this.hideDropdown}">&#x2a2f;</span>
+                </mv-dropdown>
                 <mv-dropdown content>
                   <ul>
                     <li>Item 1</li>
@@ -161,12 +161,12 @@ export class MvDropdownDemo extends LitElement {
               </mv-dropdown>
             </div>
             <div class="item top right">
-            <mv-dropdown container justify="right" position="bottom">
-              <mv-dropdown trigger>
-                <mv-button type="circle">
-                  <mv-fa icon="ellipsis-h"></mv-fa>
-                </mv-button>                
-              </mv-dropdown>
+              <mv-dropdown container justify="right" position="bottom">
+                <mv-dropdown trigger>
+                  <mv-button type="circle">
+                    <b>&#8943;</b>
+                  </mv-button>
+                </mv-dropdown>
                 <mv-dropdown header>Header</mv-dropdown>
                 <mv-dropdown content>
                   <ul>
@@ -202,7 +202,13 @@ export class MvDropdownDemo extends LitElement {
             </div>
             <div class="item middle left">
               Test for
-              <mv-dropdown container hover justify="left" position="bottom" theme="light">
+              <mv-dropdown
+                container
+                hover
+                justify="left"
+                position="bottom"
+                theme="light"
+              >
                 <mv-dropdown trigger>hoverable</mv-dropdown>
                 <mv-dropdown header theme="light">Header</mv-dropdown>
                 <mv-dropdown content theme="light">
@@ -239,9 +245,16 @@ export class MvDropdownDemo extends LitElement {
               text
             </div>
             <div class="item middle center">
-              <mv-dropdown container justify="center" position="bottom" theme="light">
+              <mv-dropdown
+                container
+                justify="center"
+                position="bottom"
+                theme="light"
+              >
                 <mv-dropdown trigger><mv-button>Click</mv-button></mv-dropdown>
-                <mv-dropdown header theme="light">Header</mv-dropdown>
+                <mv-dropdown header theme="light">
+                  Header <span @click="${this.hideDropdown}">&#x2a2f;</span>
+                </mv-dropdown>
                 <mv-dropdown content theme="light">
                   <ul>
                     <li>Item 1</li>
@@ -275,12 +288,17 @@ export class MvDropdownDemo extends LitElement {
               </mv-dropdown>
             </div>
             <div class="item middle right">
-            <mv-dropdown container justify="right" position="bottom" theme="light">
-              <mv-dropdown trigger>
-                <mv-button type="circle">
-                  <mv-fa icon="ellipsis-h"></mv-fa>
-                </mv-button>                
-              </mv-dropdown>
+              <mv-dropdown
+                container
+                justify="right"
+                position="bottom"
+                theme="light"
+              >
+                <mv-dropdown trigger>
+                  <mv-button type="circle">
+                    <b>&#8943;</b>
+                  </mv-button>
+                </mv-dropdown>
                 <mv-dropdown header theme="light">Header</mv-dropdown>
                 <mv-dropdown content theme="light">
                   <ul>
@@ -355,7 +373,9 @@ export class MvDropdownDemo extends LitElement {
             <div class="item bottom center">
               <mv-dropdown container justify="center" position="top">
                 <mv-dropdown trigger><mv-button>Click</mv-button></mv-dropdown>
-                <mv-dropdown header>Header</mv-dropdown>
+                <mv-dropdown header>
+                  Header <span @click="${this.hideDropdown}">&#x2a2f;</span>
+                </mv-dropdown>
                 <mv-dropdown content>
                   <ul>
                     <li>Item 1</li>
@@ -389,12 +409,12 @@ export class MvDropdownDemo extends LitElement {
               </mv-dropdown>
             </div>
             <div class="item bottom right">
-            <mv-dropdown container justify="right" position="top">
-              <mv-dropdown trigger>
-                <mv-button type="circle">
-                  <mv-fa icon="ellipsis-h"></mv-fa>
-                </mv-button>                
-              </mv-dropdown>
+              <mv-dropdown container justify="right" position="top">
+                <mv-dropdown trigger>
+                  <mv-button type="circle">
+                    <b>&#8943;</b>
+                  </mv-button>
+                </mv-dropdown>
                 <mv-dropdown header>Header</mv-dropdown>
                 <mv-dropdown content>
                   <ul>
@@ -433,6 +453,13 @@ export class MvDropdownDemo extends LitElement {
       </div>
     `;
   }
+
+  hideDropdown = event => {
+    const { target } = event;
+    target.dispatchEvent(
+      new CustomEvent("close-mv-dropdown", { bubbles: true })
+    );
+  };
 }
 
 customElements.define("mv-dropdown-demo", MvDropdownDemo);

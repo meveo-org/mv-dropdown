@@ -132,6 +132,10 @@ export class MvDropdown extends LitElement {
         color: var(--mv-dropdown-header-color, #ffffff);
         box-shadow: 0 0 10px 1px rgba(7, 17, 26, 0.35);
         padding: var(--header-padding);
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
       }
 
       .mv-dropdown-header.light {
@@ -217,7 +221,7 @@ export class MvDropdown extends LitElement {
     this.content = false;
     this.container = false;
     this.hover = false;
-    this.closeOnClick = true;
+    this.closeOnClick = false;
     this.hidden = true;
     this.justify = "left";
     this.position = "bottom";
@@ -256,7 +260,7 @@ export class MvDropdown extends LitElement {
     if (this.header) {
       return html`
         <div class="mv-dropdown-header ${theme}">
-          <slot></slot>
+          <slot></slot>          
         </div>
       `;
     }
@@ -283,10 +287,11 @@ export class MvDropdown extends LitElement {
     if (this.trigger) {
       this.setAttribute("slot", "trigger");
     }
+    this.addEventListener("close-mv-dropdown", this.hideDropdown);
     super.connectedCallback();
   }
 
-  hideDropdown = () => {
+  hideDropdown = event => {
     this.hidden = true;
   };
 
