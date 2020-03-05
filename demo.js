@@ -6,7 +6,8 @@ import "./mv-dropdown.js";
 export class MvDropdownDemo extends LitElement {
   static get properties() {
     return {
-      value: { type: String, attribute: true }
+      value: { type: String, attribute: true },
+      theme: { type: String, attribute: true }
     };
   }
 
@@ -76,20 +77,51 @@ export class MvDropdownDemo extends LitElement {
       .item.right > mv-dropdown {
         --mv-dropdown-trigger-height: 60px;
       }
+      
+      fieldset > label, label > input {
+        cursor: pointer;
+      }
+      
+      fieldset {
+        width: 120px;
+        margin-left: 10px;
+        border:2px solid red;
+        -moz-border-radius:8px;
+        -webkit-border-radius:8px;	
+        border-radius:8px;
+        color: #818181;
+        margin-bottom: 20px;
+      }
+      
+      legend {
+        font-weight: 500;
+        color: red;
+      }
     `;
   }
 
+  constructor() {
+    super();
+    this.theme = "light";
+  }
+
   render() {
+    const { theme } = this;
     return html`
       <div class="main">
-        <mv-container>
+        <fieldset>
+          <legend>Theme</legend>
+          <label><input type="radio" name="theme" value="light" checked @change="${this.changeTheme}" />Light</label>
+          <label><input type="radio" name="theme" value="dark" @change="${this.changeTheme}" />Dark</label>
+        </fieldset>
+        <mv-container .theme="${theme}">
           <div class="container">
             <div class="item top left">
               Test for
-              <mv-dropdown container hover justify="left" position="bottom">
+              <mv-dropdown container hover justify="left" position="bottom" .theme="${theme}">
                 <mv-dropdown trigger>hoverable</mv-dropdown>
-                <mv-dropdown header>Header</mv-dropdown>
-                <mv-dropdown content>
+                <mv-dropdown header .theme="${theme}">Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -103,8 +135,8 @@ export class MvDropdownDemo extends LitElement {
                     <li>Item 10</li>
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header>Second Header</mv-dropdown>
-                <mv-dropdown content>
+                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -123,12 +155,12 @@ export class MvDropdownDemo extends LitElement {
               text
             </div>
             <div class="item top center">
-              <mv-dropdown container justify="center" position="bottom">
-                <mv-dropdown trigger><mv-button>Click</mv-button></mv-dropdown>
-                <mv-dropdown header>
+              <mv-dropdown container justify="center" position="bottom" .theme="${theme}">
+                <mv-dropdown trigger><mv-button .theme="${theme}">Click</mv-button></mv-dropdown>
+                <mv-dropdown header .theme="${theme}">
                   Header <span @click="${this.hideDropdown}">&#x2a2f;</span>
                 </mv-dropdown>
-                <mv-dropdown content>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -142,8 +174,8 @@ export class MvDropdownDemo extends LitElement {
                     <li>Item 10</li>
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header>Second Header</mv-dropdown>
-                <mv-dropdown content>
+                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -161,14 +193,14 @@ export class MvDropdownDemo extends LitElement {
               </mv-dropdown>
             </div>
             <div class="item top right">
-              <mv-dropdown container justify="right" position="bottom">
+              <mv-dropdown container justify="right" position="bottom" .theme="${theme}">
                 <mv-dropdown trigger>
-                  <mv-button type="circle">
+                  <mv-button type="circle" .theme="${theme}">
                     <b>&#8943;</b>
                   </mv-button>
                 </mv-dropdown>
-                <mv-dropdown header>Header</mv-dropdown>
-                <mv-dropdown content>
+                <mv-dropdown header .theme="${theme}">Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -182,8 +214,8 @@ export class MvDropdownDemo extends LitElement {
                     <li>Item 10</li>
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header>Second Header</mv-dropdown>
-                <mv-dropdown content>
+                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -207,11 +239,11 @@ export class MvDropdownDemo extends LitElement {
                 hover
                 justify="left"
                 position="bottom"
-                theme="light"
+                .theme="${theme}"
               >
                 <mv-dropdown trigger>hoverable</mv-dropdown>
-                <mv-dropdown header theme="light">Header</mv-dropdown>
-                <mv-dropdown content theme="light">
+                <mv-dropdown header .theme="${theme}">Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -225,8 +257,8 @@ export class MvDropdownDemo extends LitElement {
                     <li>Item 10</li>
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header theme="light">Second Header</mv-dropdown>
-                <mv-dropdown content theme="light">
+                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -249,13 +281,13 @@ export class MvDropdownDemo extends LitElement {
                 container
                 justify="center"
                 position="bottom"
-                theme="light"
+                .theme="${theme}"
               >
-                <mv-dropdown trigger><mv-button>Click</mv-button></mv-dropdown>
-                <mv-dropdown header theme="light">
+                <mv-dropdown trigger><mv-button .theme="${theme}">Click</mv-button></mv-dropdown>
+                <mv-dropdown header .theme="${theme}">
                   Header <span @click="${this.hideDropdown}">&#x2a2f;</span>
                 </mv-dropdown>
-                <mv-dropdown content theme="light">
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -269,8 +301,8 @@ export class MvDropdownDemo extends LitElement {
                     <li>Item 10</li>
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header theme="light">Second Header</mv-dropdown>
-                <mv-dropdown content theme="light">
+                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -292,15 +324,15 @@ export class MvDropdownDemo extends LitElement {
                 container
                 justify="right"
                 position="bottom"
-                theme="light"
+                .theme="${theme}"
               >
                 <mv-dropdown trigger>
-                  <mv-button type="circle">
+                  <mv-button type="circle" .theme="${theme}">
                     <b>&#8943;</b>
                   </mv-button>
                 </mv-dropdown>
-                <mv-dropdown header theme="light">Header</mv-dropdown>
-                <mv-dropdown content theme="light">
+                <mv-dropdown header .theme="${theme}">Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -314,8 +346,8 @@ export class MvDropdownDemo extends LitElement {
                     <li>Item 10</li>
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header theme="light">Second Header</mv-dropdown>
-                <mv-dropdown content theme="light">
+                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -334,10 +366,10 @@ export class MvDropdownDemo extends LitElement {
             </div>
             <div class="item bottom left">
               Test for
-              <mv-dropdown container hover justify="left" position="top">
+              <mv-dropdown container hover justify="left" position="top" .theme="${theme}">
                 <mv-dropdown trigger>hoverable</mv-dropdown>
-                <mv-dropdown header>Header</mv-dropdown>
-                <mv-dropdown content>
+                <mv-dropdown header .theme="${theme}">Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -351,8 +383,8 @@ export class MvDropdownDemo extends LitElement {
                     <li>Item 10</li>
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header>Second Header</mv-dropdown>
-                <mv-dropdown content>
+                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -371,12 +403,12 @@ export class MvDropdownDemo extends LitElement {
               text
             </div>
             <div class="item bottom center">
-              <mv-dropdown container justify="center" position="top">
-                <mv-dropdown trigger><mv-button>Click</mv-button></mv-dropdown>
-                <mv-dropdown header>
+              <mv-dropdown container justify="center" position="top" .theme="${theme}">
+                <mv-dropdown trigger><mv-button .theme="${theme}">Click</mv-button></mv-dropdown>
+                <mv-dropdown header .theme="${theme}">
                   Header <span @click="${this.hideDropdown}">&#x2a2f;</span>
                 </mv-dropdown>
-                <mv-dropdown content>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -390,8 +422,8 @@ export class MvDropdownDemo extends LitElement {
                     <li>Item 10</li>
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header>Second Header</mv-dropdown>
-                <mv-dropdown content>
+                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -409,14 +441,14 @@ export class MvDropdownDemo extends LitElement {
               </mv-dropdown>
             </div>
             <div class="item bottom right">
-              <mv-dropdown container justify="right" position="top">
+              <mv-dropdown container justify="right" position="top" .theme="${theme}">
                 <mv-dropdown trigger>
-                  <mv-button type="circle">
+                  <mv-button type="circle" .theme="${theme}">
                     <b>&#8943;</b>
                   </mv-button>
                 </mv-dropdown>
-                <mv-dropdown header>Header</mv-dropdown>
-                <mv-dropdown content>
+                <mv-dropdown header .theme="${theme}">Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -430,8 +462,8 @@ export class MvDropdownDemo extends LitElement {
                     <li>Item 10</li>
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header>Second Header</mv-dropdown>
-                <mv-dropdown content>
+                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown content .theme="${theme}">
                   <ul>
                     <li>Item 1</li>
                     <li>Item 2</li>
@@ -459,6 +491,11 @@ export class MvDropdownDemo extends LitElement {
     target.dispatchEvent(
       new CustomEvent("close-mv-dropdown", { bubbles: true })
     );
+  };
+
+  changeTheme = originalEvent => {
+    const { target: { value } } = originalEvent;
+    this.theme = value;
   };
 }
 
