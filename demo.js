@@ -7,7 +7,8 @@ export class MvDropdownDemo extends LitElement {
   static get properties() {
     return {
       value: { type: String, attribute: true },
-      theme: { type: String, attribute: true }
+      theme: { type: String, attribute: true },
+      alert: { type: String, attribute: false, reflect: true }
     };
   }
 
@@ -39,7 +40,7 @@ export class MvDropdownDemo extends LitElement {
       .container {
         position: relative;
         width: 900px;
-        height: 900px;
+        height: 300px;
       }
 
       .item {
@@ -70,6 +71,14 @@ export class MvDropdownDemo extends LitElement {
         right: 0;
       }
 
+      .item.left > mv-dropdown {
+        --mv-dropdown-trigger-height: 25px;
+      }
+
+      .dark .item.left {
+        color: #ffffff;
+      }
+
       .item.center > mv-dropdown {
         --mv-dropdown-trigger-height: 58px;
       }
@@ -77,25 +86,54 @@ export class MvDropdownDemo extends LitElement {
       .item.right > mv-dropdown {
         --mv-dropdown-trigger-height: 60px;
       }
-      
-      fieldset > label, label > input {
+
+      fieldset > label,
+      label > input {
         cursor: pointer;
       }
-      
+
       fieldset {
         width: 120px;
         margin-left: 10px;
-        border:2px solid red;
-        -moz-border-radius:8px;
-        -webkit-border-radius:8px;	
-        border-radius:8px;
+        border: 2px solid red;
+        -moz-border-radius: 8px;
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
         color: #818181;
         margin-bottom: 20px;
       }
-      
+
       legend {
         font-weight: 500;
         color: red;
+      }
+
+      ul {
+        padding: 0;
+      }
+
+      li {
+        display: block;
+        width: 100%;
+        padding: 5px;
+      }
+
+      li:hover {
+        list-style: none;
+        display: block;
+        background: #1d9bc9;
+        color: #ffffff;
+      }
+
+      .alert em {
+        font-style: normal;
+        font-weight: bold;
+        padding: 2px 4px;
+        background: #cdcdcd;
+      }
+
+      .alert.dark em {
+        background: #9a9a9a;
       }
     `;
   }
@@ -103,6 +141,8 @@ export class MvDropdownDemo extends LitElement {
   constructor() {
     super();
     this.theme = "light";
+    this.items = Array.from({ length: 10 }, (_, i) => `Item ${i + 1}`);
+    this.alert = null;
   }
 
   render() {
@@ -111,43 +151,58 @@ export class MvDropdownDemo extends LitElement {
       <div class="main">
         <fieldset>
           <legend>Theme</legend>
-          <label><input type="radio" name="theme" value="light" checked @change="${this.changeTheme}" />Light</label>
-          <label><input type="radio" name="theme" value="dark" @change="${this.changeTheme}" />Dark</label>
+          <label
+            ><input
+              type="radio"
+              name="theme"
+              value="light"
+              checked
+              @change="${this.changeTheme}"
+            />Light</label
+          >
+          <label
+            ><input
+              type="radio"
+              name="theme"
+              value="dark"
+              @change="${this.changeTheme}"
+            />Dark</label
+          >
         </fieldset>
         <mv-container .theme="${theme}">
-          <div class="container">
+          <div class="container ${theme}">
             <div class="item top left">
               Test for
-              <mv-dropdown container hover justify="left" position="bottom" .theme="${theme}">
+              <mv-dropdown
+                container
+                hover
+                justify="left"
+                position="bottom"
+                .theme="${theme}"
+              >
                 <mv-dropdown trigger>hoverable</mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 1</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li @click="${this.detectClick(item, 1, "top-left")}">
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 2</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li @click="${this.detectClick(item, 2, "top-left")}">
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
                 <mv-dropdown footer>Footer</mv-dropdown>
@@ -155,78 +210,78 @@ export class MvDropdownDemo extends LitElement {
               text
             </div>
             <div class="item top center">
-              <mv-dropdown container justify="center" position="bottom" .theme="${theme}">
-                <mv-dropdown trigger><mv-button .theme="${theme}">Click</mv-button></mv-dropdown>
+              <mv-dropdown
+                container
+                justify="center"
+                position="bottom"
+                .theme="${theme}"
+              >
+                <mv-dropdown trigger>
+                  <mv-button .theme="${theme}">Click</mv-button>
+                </mv-dropdown>
                 <mv-dropdown header .theme="${theme}">
-                  Header <span @click="${this.hideDropdown}">&#x2a2f;</span>
+                  Group 1 <span @click="${this.hideDropdown}">&#x2a2f;</span>
                 </mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li @click="${this.detectClick(item, 1, "top-center")}">
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 2</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li @click="${this.detectClick(item, 2, "top-center")}">
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
                 <mv-dropdown footer>Footer</mv-dropdown>
               </mv-dropdown>
             </div>
             <div class="item top right">
-              <mv-dropdown container justify="right" position="bottom" .theme="${theme}">
+              <mv-dropdown
+                container
+                justify="right"
+                position="bottom"
+                .theme="${theme}"
+              >
                 <mv-dropdown trigger>
                   <mv-button type="circle" .theme="${theme}">
                     <b>&#8943;</b>
                   </mv-button>
                 </mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 1</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li @click="${this.detectClick(item, 1, "top-right")}">
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 2</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li @click="${this.detectClick(item, 2, "top-right")}">
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
                 <mv-dropdown footer>Footer</mv-dropdown>
@@ -242,34 +297,32 @@ export class MvDropdownDemo extends LitElement {
                 .theme="${theme}"
               >
                 <mv-dropdown trigger>hoverable</mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 1</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li
+                          @click="${this.detectClick(item, 1, "middle-left")}"
+                        >
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 2</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li
+                          @click="${this.detectClick(item, 2, "middle-left")}"
+                        >
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
                 <mv-dropdown footer>Footer</mv-dropdown>
@@ -283,37 +336,37 @@ export class MvDropdownDemo extends LitElement {
                 position="bottom"
                 .theme="${theme}"
               >
-                <mv-dropdown trigger><mv-button .theme="${theme}">Click</mv-button></mv-dropdown>
+                <mv-dropdown trigger>
+                  <mv-button .theme="${theme}">Click</mv-button>
+                </mv-dropdown>
                 <mv-dropdown header .theme="${theme}">
-                  Header <span @click="${this.hideDropdown}">&#x2a2f;</span>
+                  Group 1 <span @click="${this.hideDropdown}">&#x2a2f;</span>
                 </mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li
+                          @click="${this.detectClick(item, 1, "middle-center")}"
+                        >
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 2</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li
+                          @click="${this.detectClick(item, 2, "middle-center")}"
+                        >
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
                 <mv-dropdown footer>Footer</mv-dropdown>
@@ -331,34 +384,32 @@ export class MvDropdownDemo extends LitElement {
                     <b>&#8943;</b>
                   </mv-button>
                 </mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 1</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li
+                          @click="${this.detectClick(item, 1, "middle-right")}"
+                        >
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 2</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li
+                          @click="${this.detectClick(item, 2, "middle-right")}"
+                        >
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
                 <mv-dropdown footer>Footer</mv-dropdown>
@@ -366,36 +417,40 @@ export class MvDropdownDemo extends LitElement {
             </div>
             <div class="item bottom left">
               Test for
-              <mv-dropdown container hover justify="left" position="top" .theme="${theme}">
+              <mv-dropdown
+                container
+                hover
+                justify="left"
+                position="top"
+                .theme="${theme}"
+              >
                 <mv-dropdown trigger>hoverable</mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 1</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li
+                          @click="${this.detectClick(item, 1, "bottom-left")}"
+                        >
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 2</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li
+                          @click="${this.detectClick(item, 2, "bottom-left")}"
+                        >
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
                 <mv-dropdown footer>Footer</mv-dropdown>
@@ -403,78 +458,86 @@ export class MvDropdownDemo extends LitElement {
               text
             </div>
             <div class="item bottom center">
-              <mv-dropdown container justify="center" position="top" .theme="${theme}">
-                <mv-dropdown trigger><mv-button .theme="${theme}">Click</mv-button></mv-dropdown>
+              <mv-dropdown
+                container
+                justify="center"
+                position="top"
+                .theme="${theme}"
+              >
+                <mv-dropdown trigger>
+                  <mv-button .theme="${theme}">Click</mv-button>
+                </mv-dropdown>
                 <mv-dropdown header .theme="${theme}">
-                  Header <span @click="${this.hideDropdown}">&#x2a2f;</span>
+                  Group 1 <span @click="${this.hideDropdown}">&#x2a2f;</span>
                 </mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li
+                          @click="${this.detectClick(item, 1, "bottom-center")}"
+                        >
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 2</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li
+                          @click="${this.detectClick(item, 2, "bottom-center")}"
+                        >
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
                 <mv-dropdown footer>Footer</mv-dropdown>
               </mv-dropdown>
             </div>
             <div class="item bottom right">
-              <mv-dropdown container justify="right" position="top" .theme="${theme}">
+              <mv-dropdown
+                container
+                justify="right"
+                position="top"
+                .theme="${theme}"
+              >
                 <mv-dropdown trigger>
                   <mv-button type="circle" .theme="${theme}">
                     <b>&#8943;</b>
                   </mv-button>
                 </mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 1</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li
+                          @click="${this.detectClick(item, 1, "bottom-right")}"
+                        >
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
-                <mv-dropdown header .theme="${theme}">Second Header</mv-dropdown>
+                <mv-dropdown header .theme="${theme}">Group 2</mv-dropdown>
                 <mv-dropdown content .theme="${theme}">
                   <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li>Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
+                    ${this.items.map(
+                      item => html`
+                        <li
+                          @click="${this.detectClick(item, 2, "bottom-right")}"
+                        >
+                          ${item}
+                        </li>
+                      `
+                    )}
                   </ul>
                 </mv-dropdown>
                 <mv-dropdown footer>Footer</mv-dropdown>
@@ -482,6 +545,15 @@ export class MvDropdownDemo extends LitElement {
             </div>
           </div>
         </mv-container>
+        ${this.alert
+          ? html`
+              <mv-container .theme="${theme}">
+                <div class="alert ${this.theme}">
+                  ${this.alert}
+                </div>
+              </mv-container>
+            `
+          : html``}
       </div>
     `;
   }
@@ -493,8 +565,17 @@ export class MvDropdownDemo extends LitElement {
     );
   };
 
+  detectClick = (item, group, triggerPosition) => event => {
+    this.alert = html`
+      <em>${item}</em> of <em>Group ${group}</em> from the
+      <em>${triggerPosition} dropdown</em> was selected.
+    `;
+  };
+
   changeTheme = originalEvent => {
-    const { target: { value } } = originalEvent;
+    const {
+      target: { value }
+    } = originalEvent;
     this.theme = value;
   };
 }

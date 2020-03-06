@@ -157,7 +157,7 @@ export class MvDropdown extends LitElement {
         float: left;
         overflow-y: auto;
         margin: 0;
-        // fallback for firefox
+        /* fallback for firefox */
         scrollbar-color: #5a6473 #788394;
         scrollbar-width: thin;
         margin: var(--content-margin);
