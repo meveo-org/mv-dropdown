@@ -27,7 +27,9 @@ export class MvDropdown extends LitElement {
 
       // valid theme values are: light, dark
       // default value: dark
-      theme: { type: String, attribute: true }
+      theme: { type: String, attribute: true },
+
+      isTriggerClicked: { type: Boolean, attribute: false, reflects: true }
     };
   }
 
@@ -226,6 +228,7 @@ export class MvDropdown extends LitElement {
     this.justify = "left";
     this.position = "bottom";
     this.theme = "dark";
+    this.isTriggerClicked = false;
   }
 
   render() {
@@ -246,7 +249,7 @@ export class MvDropdown extends LitElement {
             @mouseleave="${this.triggerMouseOut}"
           >
             <div class="${slotClass}">
-              <div class="mv-dropdown-trigger">
+              <div class="mv-dropdown-trigger" @click="${this.handleTriggerClick}">
                 <slot name="trigger"></slot>
               </div>
               <div class="${dropdownClass}" @click="${this.handleContentClick}">
@@ -260,7 +263,7 @@ export class MvDropdown extends LitElement {
     if (this.header) {
       return html`
         <div class="mv-dropdown-header ${theme}">
-          <slot></slot>          
+          <slot></slot>
         </div>
       `;
     }
@@ -293,11 +296,13 @@ export class MvDropdown extends LitElement {
 
   hideDropdown = event => {
     this.hidden = true;
+    this.isTriggerClicked = false;
   };
 
   triggerClicked = () => {
     if (this.hidden && !this.hover) {
       this.hidden = false;
+      this.isTriggerClicked = false;
     }
   };
 
@@ -318,6 +323,16 @@ export class MvDropdown extends LitElement {
       this.hidden = true;
     }
   };
+
+  handleTriggerClick = event => {
+    if (!this.hidden && this.isTriggerClicked) {
+      this.hidden = true;
+      this.isTriggerClicked = false;
+    }
+    if (!this.hidden) {
+      this.isTriggerClicked = true;
+    }    
+  }
 }
 
 customElements.define("mv-dropdown", MvDropdown);
