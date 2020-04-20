@@ -23,6 +23,7 @@ To experiment with the MvDropdown component.
 <mv-dropdown
   container                   // indicates the main container of the dropdown
   hover                       // indicates that the dropdown responds to hover events
+  toggle                      // indicates whether clicking on the trigger toggles the menu on and off
   justify="left"              // the alignment of the menu, i.e. if set to left, the left side
                               //   of the menu is aligned to the left side of the trigger
   position="bottom"           // indicates where the dropdown appears with respect to the trigger

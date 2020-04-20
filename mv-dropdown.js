@@ -4,30 +4,31 @@ import "mv-click-away";
 export class MvDropdown extends LitElement {
   static get properties() {
     return {
-      container: { type: Boolean, attribute: true },
-      trigger: { type: Boolean, attribute: true },
-      header: { type: Boolean, attribute: true },
-      footer: { type: Boolean, attribute: true },
-      content: { type: Boolean, attribute: true },
-      hover: { type: Boolean, attribute: true },
+      container: { type: Boolean },
+      trigger: { type: Boolean },
+      header: { type: Boolean },
+      footer: { type: Boolean },
+      content: { type: Boolean },
+      hover: { type: Boolean },
       closeOnClick: {
         type: Boolean,
         attribute: "close-on-click",
-        reflect: true
+        reflect: true,
       },
-      hidden: { type: Boolean, attribute: false },
+      toggle: { type: Boolean },
+      hidden: { type: Boolean },
 
       // valid justify values are: left, center, right
       // default value: left
-      justify: { type: String, attribute: true },
+      justify: { type: String },
 
       // valid position values are: top, bottom
       // default value: bottom
-      position: { type: String, attribute: true },
+      position: { type: String },
 
       // valid theme values are: light, dark
       // default value: dark
-      theme: { type: String, attribute: true }
+      theme: { type: String },
     };
   }
 
@@ -84,7 +85,6 @@ export class MvDropdown extends LitElement {
         box-shadow: 0 0 20px 1px rgba(93, 94, 97, 0.35);
         z-index: 10;
         visibility: visible;
-        -webkit-animation: fadeIn 0.3s;
         animation: fadeIn 0.3s;
       }
 
@@ -226,27 +226,27 @@ export class MvDropdown extends LitElement {
     this.justify = "left";
     this.position = "bottom";
     this.theme = "dark";
+    this.toggle = false;
   }
 
   render() {
     const { hidden, position, justify, theme } = this;
     const hiddenClass = hidden ? " hidden" : "";
-    const positionClass = position || "bottom";
-    const justifyClass = justify || "left";
-    const dropdownClass = `mv-dropdown${hiddenClass} ${positionClass} ${theme}`;
-    const slotClass = `mv-dropdown-slot-container ${positionClass} ${justifyClass}`;
+    const positionClass = ` ${position || "bottom"}`;
+    const justifyClass = ` ${justify || "left"}`;
+    const dropdownClass = `mv-dropdown${hiddenClass}${positionClass} ${theme}`;
+    const slotClass = `mv-dropdown-slot-container${positionClass}${justifyClass}`;
 
     if (this.container) {
       return html`
         <mv-click-away @clicked-away="${this.hideDropdown}">
           <div
             class="mv-dropdown-container"
-            @mouseup="${this.triggerClicked}"
             @mouseenter="${this.triggerMouseOver}"
             @mouseleave="${this.triggerMouseOut}"
           >
             <div class="${slotClass}">
-              <div class="mv-dropdown-trigger">
+              <div class="mv-dropdown-trigger" @mouseup="${this.toggleMenu}">
                 <slot name="trigger"></slot>
               </div>
               <div class="${dropdownClass}" @click="${this.handleContentClick}">
@@ -260,7 +260,7 @@ export class MvDropdown extends LitElement {
     if (this.header) {
       return html`
         <div class="mv-dropdown-header ${theme}">
-          <slot></slot>          
+          <slot></slot>
         </div>
       `;
     }
@@ -278,26 +278,23 @@ export class MvDropdown extends LitElement {
         </div>
       `;
     }
-    return html`
-      <slot></slot>
-    `;
+    return html` <slot></slot> `;
   }
 
   connectedCallback() {
     if (this.trigger) {
       this.setAttribute("slot", "trigger");
     }
-    this.addEventListener("close-mv-dropdown", this.hideDropdown);
     super.connectedCallback();
   }
 
-  hideDropdown = event => {
+  hideDropdown = (event) => {
     this.hidden = true;
   };
 
-  triggerClicked = () => {
-    if (this.hidden && !this.hover) {
-      this.hidden = false;
+  toggleMenu = () => {
+    if (!this.hover) {
+      this.hidden = this.toggle ? !this.hidden : false;
     }
   };
 
@@ -313,7 +310,7 @@ export class MvDropdown extends LitElement {
     }
   };
 
-  handleContentClick = event => {
+  handleContentClick = (event) => {
     if (this.closeOnClick && !this.hidden) {
       this.hidden = true;
     }

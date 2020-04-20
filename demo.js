@@ -212,6 +212,7 @@ export class MvDropdownDemo extends LitElement {
             <div class="item top center">
               <mv-dropdown
                 container
+                toggle
                 justify="center"
                 position="bottom"
                 .theme="${theme}"
@@ -332,6 +333,7 @@ export class MvDropdownDemo extends LitElement {
             <div class="item middle center">
               <mv-dropdown
                 container
+                toggle
                 justify="center"
                 position="bottom"
                 .theme="${theme}"
@@ -460,6 +462,7 @@ export class MvDropdownDemo extends LitElement {
             <div class="item bottom center">
               <mv-dropdown
                 container
+                toggle
                 justify="center"
                 position="top"
                 .theme="${theme}"
