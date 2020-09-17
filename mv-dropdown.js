@@ -39,8 +39,8 @@ export class MvDropdown extends LitElement {
         font-size: var(--font-size-m, 10pt);
         --trigger-height: var(--mv-dropdown-trigger-height, 26px);
         --trigger-padding: var(--mv-dropdown-trigger-padding, 5px);
-        --min-width: var(--mv-dropdown-min-width, 188px);
-        --max-width: var(--mv-dropdown-max-width, 300px);
+        --min-width: var(--mv-dropdown-min-width, auto);
+        --max-width: var(--mv-dropdown-max-width, auto);
         --content-max-height: var(--mv-dropdown-content-max-height, 150px);
         --content-margin: var(--mv-dropdown-content-margin, 0);
         --header-padding: var(--mv-dropdown-header-padding, 5px 15px);
