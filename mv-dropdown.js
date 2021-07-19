@@ -80,7 +80,7 @@ export class MvDropdown extends LitElement {
         border: var(--mv-dropdown-border, 1px solid #1e3843);
         background: var(--mv-dropdown-background, #3f4753);
         color: var(--mv-dropdown-color, #999999);
-        position: absolute;
+        position: fixed;
         border-radius: 5px;
         box-shadow: 0 0 20px 1px rgba(93, 94, 97, 0.35);
         z-index: 10;
@@ -99,7 +99,7 @@ export class MvDropdown extends LitElement {
       }
 
       .mv-dropdown.bottom {
-        top: var(--trigger-height);
+        margin-top: var(--trigger-height);
       }
 
       .mv-dropdown-slot-container {
