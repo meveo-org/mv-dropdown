@@ -1,5 +1,5 @@
 import { LitElement, html, css } from "lit-element";
-import "mv-click-away";
+import "@meveo-org/mv-click-away";
 
 export class MvDropdown extends LitElement {
   static get properties() {
