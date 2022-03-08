@@ -1,6 +1,6 @@
-import { LitElement, html, css } from "lit-element";
-import "mv-container";
-import "mv-button";
+import { LitElement, html, css } from "lit";
+import "@meveo-org/mv-container";
+import "@meveo-org/mv-button";
 import "./mv-dropdown.js";
 
 export class MvDropdownDemo extends LitElement {
