@@ -42,8 +42,10 @@ export class MvDropdown extends LitElement {
         --min-width: var(--mv-dropdown-min-width, auto);
         --max-width: var(--mv-dropdown-max-width, auto);
         --content-max-height: var(--mv-dropdown-content-max-height, 150px);
+        --content-overflow: var(--mv-dropdown-content-overflow, auto);
         --content-margin: var(--mv-dropdown-content-margin, 0);
         --header-padding: var(--mv-dropdown-header-padding, 5px 15px);
+        --dropdown-box-shadow: var(--mv-dropdown-box-shadow);
       }
 
       @-webkit-keyframes fadeIn {
@@ -82,7 +84,7 @@ export class MvDropdown extends LitElement {
         color: var(--mv-dropdown-color, #999999);
         position: absolute;
         border-radius: 5px;
-        box-shadow: 0 0 20px 1px rgba(93, 94, 97, 0.35);
+        box-shadow: var(--dropdown-box-shadow, 0 0 20px 1px rgba(93, 94, 97, 0.35));
         z-index: 10;
         visibility: visible;
         animation: fadeIn 0.3s;
@@ -148,14 +150,14 @@ export class MvDropdown extends LitElement {
       }
 
       .mv-dropdown-content {
-        overflow: auto;
+        overflow: var(--content-overflow);
         max-height: var(--content-max-height);
       }
 
       .mv-dropdown-content.scrollbar {
         width: calc(100% - 2px);
         float: left;
-        overflow-y: auto;
+        overflow-y: var(--content-overflow);
         margin: 0;
         /* fallback for firefox */
         scrollbar-color: #5a6473 #788394;
