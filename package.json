@@ -1,6 +1,6 @@
 {
   "name": "@meveo-org/mv-dropdown",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MvDropdown is a Meveo component (based on lit-element) that renders a dropdown container.",
   "main": "mv-dropdown.js",
   "scripts": {
